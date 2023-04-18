@@ -14,9 +14,9 @@ namespace MVCapp.Services
 
         }
 
-		public List<Poll> GetPollsByUser(ApplicationUser user)
+		public List<Poll> GetPollsByUser(string userid)
 		{
-			return _context.Polls.Where(poll => poll.Voters.Select(p => p.ApplicationUserId).Contains(user.Id)).ToList();
+			return _context.Polls.Where(poll => poll.Voters.Select(p => p.ApplicationUserId).Contains(userid)).ToList();
 		}
 
 		public Poll GetPoll(Int32 id)

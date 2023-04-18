@@ -16,21 +16,6 @@ namespace MVCapp.Models
                 return;
             }
 
-            List<ApplicationUser> defaultusers = new List<ApplicationUser>()
-            {
-				new ApplicationUser
-                {
-                    UserName = "admin",
-                },
-                new ApplicationUser
-                {
-                    UserName = "gaborszucs98@gmail.com"
-                }
-            };
-
-            defaultusers[0].PasswordHash = passwordHasher.HashPassword(defaultusers[0], "admin");
-			defaultusers[1].PasswordHash = passwordHasher.HashPassword(defaultusers[1], "Sonicx");
-
 			List<Poll> defaultPolls = new List<Poll>
             {
                 new Poll
@@ -180,19 +165,17 @@ namespace MVCapp.Models
                     }
                 }
             };
-
+            
             foreach (Poll poll in defaultPolls)
             {
-                poll.AddVoter(defaultusers[0]);
-                Console.WriteLine(defaultusers[0].UserName);
+                poll.AddVoter(context.Users.Single(user => user.UserName == "admin@admin.com"));
 			}
 
-            defaultPolls[2].AddVoter(defaultusers[1]);
-			Console.WriteLine(defaultusers[1].UserName);
+            defaultPolls[2].AddVoter(context.Users.Single(user => user.UserName == "abcd98@citromail.hu"));
 
-			context.AddRange(defaultusers);
-			context.AddRange(defaultPolls);
+            context.AddRange(defaultPolls);
             context.SaveChanges();
+            
         }
     }
 }

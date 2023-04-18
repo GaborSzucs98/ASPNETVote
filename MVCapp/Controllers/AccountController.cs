@@ -84,7 +84,7 @@ namespace MVCapp.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(MainPageController.Index), "Lists");
+            return RedirectToAction(nameof(MainPageController.Index), "Home");
         }
 
         private IActionResult RedirectToLocal(string? returnUrl)
@@ -95,7 +95,7 @@ namespace MVCapp.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(MainPageController.Index), "Lists");
+                return RedirectToAction(nameof(MainPageController.Index), "Home");
             }
         }
     }

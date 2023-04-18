@@ -29,8 +29,14 @@ namespace MVCapp.Models
         public void AddVoter(ApplicationUser user)
         {
             PollUser puser = new PollUser(Id, user.Id);
-            Voters.Add(puser);
-            user.Polls.Add(puser);
+            if (Voters.Contains(puser)) {
+                return;
+            }
+            else
+            {
+                Voters.Add(puser);
+                user.Polls.Add(puser);
+            }
         }
 
         public void Voted(ApplicationUser user)
