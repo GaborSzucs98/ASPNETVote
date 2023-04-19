@@ -1,0 +1,84 @@
+﻿@using MVCapp.Models;
+@model MVCapp.Models.Poll
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Poll</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th scope="row">
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Question)
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                @Html.DisplayNameFor(model => model.Start)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Start)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">
+                @Html.DisplayNameFor(model => model.End)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.End)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">
+                Szavazók száma:
+            </th>
+            <td>
+                @Model.GetNumOfVoted()
+            </td>
+            <td>
+                @{
+                    int num = (Model.GetNumOfVoted() / @Model.Voters.Count) * 100;
+                }
+                @num %
+            </td>
+        </tr>
+        @foreach (Option item in Model.Options)
+        {
+            <tr>
+                <th scope="row">
+                    @item.Ans
+                </th>
+                <td>
+                    @item.Votes
+                </td>
+                <td>
+                    @{
+                        int num2;
+                        if (item.Votes == 0)
+                        {
+                            num2 = 0;
+                        }
+                        else
+                        {
+                            num2 = (Model.GetNumOfVoted() / item.Votes) * 100;
+                        }
+                    }
+                    @num2 %
+                </td>
+            </tr>
+
+        }
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

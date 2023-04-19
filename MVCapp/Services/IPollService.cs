@@ -11,5 +11,6 @@ namespace MVCapp.Services
         bool CreatePoll(Poll voter);
         bool UpdatePoll(Poll voter);
         bool DeletePoll(Int32 id);
+        void Vote(Poll poll, string userid, int optionid);
     }
 }

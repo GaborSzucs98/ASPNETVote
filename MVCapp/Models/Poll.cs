@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCapp.Models
 {
@@ -12,7 +11,7 @@ namespace MVCapp.Models
 		}
 
         [Key]
-        public Int32 Id { get; set; }
+        public int Id { get; set; }
 
         public string Question { get; set; } = null!;
 
@@ -39,9 +38,20 @@ namespace MVCapp.Models
             }
         }
 
-        public void Voted(ApplicationUser user)
+        public Option GetOption(int id)
         {
-            Voters.Where(voter => voter.PollId == Id && voter.ApplicationUserId == user.Id).FirstOrDefault()!.Voted = true;
+            return Options.Single(op => op.Id == id);
+        }
+
+        public void Vote(string userid, int optionid)
+        {
+            GetOption(optionid).Votes++;
+            Voters.Where(voter => voter.PollId == this.Id && voter.ApplicationUserId == userid).FirstOrDefault()!.Voted = true;
+        }
+
+        public int GetNumOfVoted() 
+        {
+            return Voters.Where(voter => voter.Voted == true).Count();
         }
 	}
 }

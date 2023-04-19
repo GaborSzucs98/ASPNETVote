@@ -6,9 +6,31 @@
 
 <h1>MyPolls</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<form asp-controller="Mypolls" asp-action="Index" method="post">
+<table class="table">
+    <tr>
+        <td>
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search"/>
+        </td>
+        <td>
+            <label for="start">Start date:</label>
+            <input type="date" id="start" name="start"
+                   value="2018-01-01"
+                   min="2018-01-01" max="2025-12-31">
+        </td>
+        <td>
+            <label for="end">end date:</label>
+            <input type="date" id="end" name="end"
+                   value="2025-12-31"
+                   min="2018-01-01" max="2025-12-31">
+        </td>
+        <td>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </td>
+    </tr>
+</table>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +59,7 @@
                 @Html.DisplayFor(modelItem => item.End)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

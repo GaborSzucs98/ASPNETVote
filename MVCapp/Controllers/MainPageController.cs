@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MVCapp.Models;
 using MVCapp.Services;
 
@@ -24,8 +25,8 @@ namespace MVCapp.Controllers
 		{
 			try
 			{
-				var user = userManager.GetUserId(HttpContext.User); 
-				var result = pollService.GetPollsByUser(user).Where(poll => poll.Start > DateTime.Now && poll.End < DateTime.Now && poll.Voters.Single(voter => voter.ApplicationUserId == user).Voted == false).OrderBy(poll => poll.End).ToList();
+                string user = userManager.GetUserId(HttpContext.User); 
+				var result = pollService.GetPollsByUser(user).Where(poll => poll.Start < DateTime.Now && poll.End > DateTime.Now && poll.Voters.Single(voter => voter.ApplicationUserId == user).Voted == false).OrderBy(poll => poll.End).ToList();
 				return View(result);
 			}
 			catch(Exception ex)
@@ -36,10 +37,22 @@ namespace MVCapp.Controllers
 			
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public IActionResult VotePage(int id)
 		{
-			return View(pollService.GetPoll(id));
+			VoteViewModel vm = new VoteViewModel();
+			vm.pollid = id;
+			vm.poll = pollService.GetPoll(id);
+            return View(vm);
 		}
+
+		[HttpPost]
+		public IActionResult VotePage(VoteViewModel vm)
+		{
+			vm.poll = pollService.GetPoll(vm.pollid);
+			string user = userManager.GetUserId(HttpContext.User);
+			pollService.Vote(vm.poll,user,vm.optionid);
+			return RedirectToAction(nameof(Index));
+        }
     }
 }

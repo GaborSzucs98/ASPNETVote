@@ -1,5 +1,6 @@
 ﻿using MVCapp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace MVCapp.Services
 {
@@ -85,6 +86,11 @@ namespace MVCapp.Services
             }
 
             return true;
+        }
+
+        public void Vote(Poll poll, string userid, int optionid) {
+            poll.Vote(userid, optionid);
+            _context.SaveChanges();
         }
     }
 }

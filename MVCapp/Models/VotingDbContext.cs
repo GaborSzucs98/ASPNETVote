@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MVCapp.Models;
 
 namespace MVCapp.Models
 {
@@ -11,5 +12,7 @@ namespace MVCapp.Models
             : base(options)
         {
         }
+
+        public DbSet<MVCapp.Models.Option>? Option { get; set; }
     }
 }

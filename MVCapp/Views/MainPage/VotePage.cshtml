@@ -1,0 +1,34 @@
+﻿@using MVCapp.Models;
+@model VoteViewModel
+
+@{
+    ViewData["Title"] = "VotePage";
+}
+
+<h1>VotePage</h1>
+
+<form asp-controller="MainPage" asp-action="VotePage" method="post">
+@Html.HiddenFor(Model => Model.pollid)
+<table class="table">
+    <tr>
+        <h2>
+            @Model.poll.Question
+        </h2>
+    </tr>
+    <tbody>
+        <tr>
+            @foreach (Option item in Model.poll.Options) {
+        
+            <td>
+                @Html.RadioButtonFor(Model => Model.optionid,item.Id)
+            </td>
+            <td>
+                @item.Ans
+            </td>
+            }
+        </tr>
+    </tbody>
+</table>
+    <button class="btn btn-primary" type="submit">Szavazás</button>
+</form>
+<a asp-action="Index">Vissza a szavazásokhoz</a>
