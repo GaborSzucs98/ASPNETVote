@@ -59,8 +59,7 @@ namespace MVCapp
             using (var serviceScope = app.Services.CreateScope())
             using (var context = serviceScope.ServiceProvider.GetRequiredService<VotingDbContext>())
             {
-                PasswordHasher<IdentityUser> passwordHasher= new PasswordHasher<IdentityUser>();
-                DbInitializer.Initialize(context,passwordHasher);
+                DbInitializer.Initialize(context);
             }
 
             app.Run();

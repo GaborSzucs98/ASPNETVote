@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace MVCapp.Models
 {
     public static class DbInitializer
     {
-        public static void Initialize(VotingDbContext context, IPasswordHasher<IdentityUser> passwordHasher)
+        public static void Initialize(VotingDbContext context)
         {
             context.Database.Migrate();
 
-			if (context.Polls.Any())
+            if (context.Polls.Any())
+            {
+                return;
+            }
+            // Első indításnál regisztrálni kell felhasználókat a böngészőben
+            // és második inditáskor ha van legalább 1 felhasználó
+            // hozzáadja a szavazásokat random felhasználókhoz
+            else if (!context.Users.Any())
             {
                 return;
             }
@@ -165,13 +170,19 @@ namespace MVCapp.Models
                     }
                 }
             };
-            
+
+            Random R = new Random((int)DateTime.Now.Ticks);
+            int someRandomNumber;
             foreach (Poll poll in defaultPolls)
             {
-                poll.AddVoter(context.Users.Single(user => user.UserName == "admin@admin.com"));
-			}
-
-            defaultPolls[2].AddVoter(context.Users.Single(user => user.UserName == "abcd98@citromail.hu"));
+                // admin/teszt felhasználó
+                poll.AddVoter(context.Users.Single(user => user.UserName == "admin@admin.com"));   
+                for(int i = 0; i < 2; i++)
+                {
+                    someRandomNumber = R.Next(0, context.Users.Count());
+                    poll.AddVoter(context.Users.ToList()[someRandomNumber]);
+                }
+            }
 
             context.AddRange(defaultPolls);
             context.SaveChanges();

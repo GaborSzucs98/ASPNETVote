@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using MVCapp.Services;
 using MVCapp.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
 
 namespace MVCapp.Controllers
 {
