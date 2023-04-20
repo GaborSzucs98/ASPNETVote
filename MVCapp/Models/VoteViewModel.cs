@@ -6,10 +6,12 @@ namespace MVCapp.Models
 {
     public class VoteViewModel
     {
-        public int pollid { get; set; }
+        [Required]
+        public int pollid { get; set; } = -1;
 
         public Poll poll { get; set; } = null!;
 
+        [Required]
 		public int optionid { get; set; }
 
         public Option option { get; set; } = null!;

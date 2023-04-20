@@ -49,10 +49,19 @@ namespace MVCapp.Controllers
 		[HttpPost]
 		public IActionResult VotePage(VoteViewModel vm)
 		{
-			vm.poll = pollService.GetPoll(vm.pollid);
-			string user = userManager.GetUserId(HttpContext.User);
-			pollService.Vote(vm.poll,user,vm.optionid);
-			return RedirectToAction(nameof(Index));
+			if (vm.optionid > 0)
+			{
+				vm.poll = pollService.GetPoll(vm.pollid);
+				string user = userManager.GetUserId(HttpContext.User);
+				pollService.Vote(vm.poll,user,vm.optionid);
+				return RedirectToAction(nameof(Index));
+			}
+			else
+			{
+                vm.poll = pollService.GetPoll(vm.pollid);
+                return View(vm);
+			}
+
         }
     }
 }
