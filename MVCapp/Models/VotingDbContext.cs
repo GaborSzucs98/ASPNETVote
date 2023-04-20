@@ -13,6 +13,6 @@ namespace MVCapp.Models
         {
         }
 
-        public DbSet<MVCapp.Models.Option>? Option { get; set; }
+        public DbSet<Option>? Option { get; set; }
     }
 }
