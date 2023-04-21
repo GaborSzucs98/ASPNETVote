@@ -46,9 +46,9 @@
             </td>
             <td>
                 @{
-                    int num = (Model.GetNumOfVoted() / @Model.Voters.Count) * 100;
+                    float num = ((float)Model.GetNumOfVoted() / (float)@Model.Voters.Count) * 100;
                 }
-                @num %
+                @num.ToString("F") %
             </td>
         </tr>
         @foreach (Option item in Model.Options)
@@ -62,17 +62,17 @@
                 </td>
                 <td>
                     @{
-                        int num2;
+                        float num2;
                         if (item.Votes == 0)
                         {
                             num2 = 0;
                         }
                         else
                         {
-                            num2 = ( item.Votes / Model.GetNumOfVoted()) * 100;
+                            num2 = ((float)item.Votes / (float)Model.GetNumOfVoted()) * 100;
                         }
                     }
-                    @num2 %
+                    @num2.ToString("F") %
                 </td>
             </tr>
 

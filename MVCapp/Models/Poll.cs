@@ -46,7 +46,7 @@ namespace MVCapp.Models
         public void Vote(string userid, int optionid)
         {
             GetOption(optionid).Votes++;
-            Voters.Where(voter => voter.PollId == this.Id && voter.ApplicationUserId == userid).FirstOrDefault()!.Voted = true;
+            Voters.Where(voter => voter.PollId == this.Id && voter.ApplicationUserId == userid).First()!.Voted = true;
         }
 
         public int GetNumOfVoted() 
