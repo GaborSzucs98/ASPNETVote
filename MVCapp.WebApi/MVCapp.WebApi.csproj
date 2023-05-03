@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
@@ -16,14 +16,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="6.0.13" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MVCapp.DTO\MVCapp.DTO.csproj" />
     <ProjectReference Include="..\MVCapp.Persistence\MVCapp.Persistence.csproj" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MVCapp.Models;
-
-namespace MVCapp.Services
+﻿namespace MVCapp.Persitence.Services
 {
     public interface IPollService
     {

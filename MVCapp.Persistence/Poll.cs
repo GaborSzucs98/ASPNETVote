@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MVCapp.Models
+namespace MVCapp.Persitence
 {
     public class Poll
     {
