@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MVCapp.Models
+namespace MVCapp.Persitence
 {
     public static class DbInitializer
     {

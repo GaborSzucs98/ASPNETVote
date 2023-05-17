@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MVCapp.Models;
 
-namespace MVCapp.Models
+namespace MVCapp.Persitence
 {
     public class VotingDbContext : IdentityDbContext<ApplicationUser>
     {

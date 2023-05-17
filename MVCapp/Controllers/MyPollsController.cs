@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MVCapp.Services;
-using MVCapp.Models;
+using MVCapp.Persitence.Services;
+using MVCapp.Persitence;
 using Microsoft.AspNetCore.Identity;
 
 namespace MVCapp.Controllers

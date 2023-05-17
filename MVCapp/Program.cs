@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using MVCapp.Models;
-using MVCapp.Services;
+using MVCapp.Persitence.Services;
+using MVCapp.Persitence;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MVCapp
 {
@@ -30,6 +31,16 @@ namespace MVCapp
                 options.Password.RequireUppercase = false;
             })
             .AddEntityFrameworkStores<VotingDbContext>();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "mvccookie";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.SlidingExpiration = true;
+            });
+
+
 
             builder.Services.AddTransient<IPollService, PollService>();
 

@@ -1,8 +1,6 @@
-﻿using MVCapp.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MVCapp.Services
+namespace MVCapp.Persitence.Services
 {
     public class PollService : IPollService
     {
