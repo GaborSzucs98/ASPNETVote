@@ -1,24 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MVCapp.Persitence
 {
     public static class DbInitializer
     {
-        public static void Initialize(VotingDbContext context)
+
+		private static VotingDbContext context = null!;
+		private static UserManager<ApplicationUser> userManager = null!;
+		public static void Initialize(IServiceProvider serviceProvider)
         {
-            context.Database.Migrate();
+			context = serviceProvider.GetRequiredService<VotingDbContext>();
+			userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+			context.Database.Migrate();
 
             if (context.Polls.Any())
             {
                 return;
             }
-            // Első indításnál regisztrálni kell felhasználókat a böngészőben
-            // és második inditáskor ha van legalább 1 felhasználó
-            // hozzáadja a szavazásokat random felhasználókhoz
-            else if (!context.Users.Any())
-            {
-                return;
-            }
+
+            var users = SeedUsers();
 
 			List<Poll> defaultPolls = new List<Poll>
             {
@@ -170,22 +173,39 @@ namespace MVCapp.Persitence
                 }
             };
 
-            Random R = new Random((int)DateTime.Now.Ticks);
-            int someRandomNumber;
-            foreach (Poll poll in defaultPolls)
-            {
-                // admin/teszt felhasználó
-                poll.AddVoter(context.Users.Single(user => user.UserName == "admin@admin.com"));   
-                for(int i = 0; i < 2; i++)
-                {
-                    someRandomNumber = R.Next(0, context.Users.Count());
-                    poll.AddVoter(context.Users.ToList()[someRandomNumber]);
-                }
-            }
+            defaultPolls[0].AddVoter(users[0]);
+			defaultPolls[0].AddVoter(users[1]);
+
+			defaultPolls[1].AddVoter(users[0]);
+			defaultPolls[1].AddVoter(users[1]);
+
+			defaultPolls[2].AddVoter(users[0]);
 
             context.AddRange(defaultPolls);
             context.SaveChanges();
             
         }
-    }
+		private static List<ApplicationUser> SeedUsers()
+		{
+			var adminUser = new ApplicationUser
+			{
+				UserName = "admin@admin.hu",
+				Email = "admin@admin.hu",
+			};
+			var adminPassword = "admin";
+
+			var result1 = userManager.CreateAsync(adminUser, adminPassword).Result;
+
+			var adminUser2 = new ApplicationUser
+			{
+				UserName = "test@test.hu",
+				Email = "test@test.hu",
+			};
+			var adminPassword2 = "test";
+
+			var result2 = userManager.CreateAsync(adminUser2, adminPassword2).Result;
+
+            return new List<ApplicationUser> { adminUser, adminUser2 };
+		}
+	}
 }

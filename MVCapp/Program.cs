@@ -40,8 +40,6 @@ namespace MVCapp
                 options.SlidingExpiration = true;
             });
 
-
-
             builder.Services.AddTransient<IPollService, PollService>();
 
             builder.Services.AddControllersWithViews();
@@ -55,9 +53,10 @@ namespace MVCapp
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
+			app.UseStaticFiles();
+
+			app.UseRouting();
 
             app.UseAuthentication();
 
@@ -68,9 +67,8 @@ namespace MVCapp
                 pattern: "{controller=Home}/{action=Index}");
 
             using (var serviceScope = app.Services.CreateScope())
-            using (var context = serviceScope.ServiceProvider.GetRequiredService<VotingDbContext>())
             {
-                DbInitializer.Initialize(context);
+                DbInitializer.Initialize(serviceScope.ServiceProvider);
             }
 
             app.Run();
