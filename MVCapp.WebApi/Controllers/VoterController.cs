@@ -53,11 +53,10 @@ namespace MVCapp.WebApi.Controllers
 			return result;
 		}
 
-		[HttpPost("{id}")]
+		[HttpPost("{pollid}")]
 		//[Authorize]
-		public ActionResult AddVoter(int pollid, LoginDTO user) 
+		public ActionResult AddVoter(Int32 pollid, LoginDTO user) 
 		{
-			Trace.WriteLine(pollid);
 			Poll poll = service.GetPoll(pollid);
 			if (poll is null)
 			{

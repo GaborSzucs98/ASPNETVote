@@ -143,25 +143,13 @@ namespace MVCapp.Client.Model
 
 		public async Task AddVoterAsync(int pollid, LoginDTO user)
 		{
+			Trace.WriteLine($"api/Voter/{pollid}");
 			HttpResponseMessage resp = await client.PostAsJsonAsync($"api/Voter/{pollid}", user);
 
 			if (!resp.IsSuccessStatusCode)
 			{
 				throw new NetworkException("Service returned response: " + resp.StatusCode);
 			}
-		}
-
-		public async Task<PollUserDTO> LoadPollUserAsync(int pollid, string userid)
-		{
-			HttpResponseMessage resp = await client.GetAsync($"api/PollVoter/{pollid}");
-
-			if (resp.IsSuccessStatusCode)
-			{
-				var pollusers = await resp.Content.ReadAsAsync<IEnumerable<PollUserDTO>>();
-				return pollusers.Single( u => u.ApplicationUserId== userid );
-			}
-
-			throw new NetworkException("Service returned response: " + resp.StatusCode);
 		}
 
 		public async Task<IEnumerable<PollUserDTO>> LoadPollUserAsync(int pollid)

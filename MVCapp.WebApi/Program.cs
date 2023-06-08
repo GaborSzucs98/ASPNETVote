@@ -49,31 +49,16 @@ namespace MVCapp.WebApi
 
 			builder.Services.AddControllers();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			/*
             builder.Services.AddEndpointsApiExplorer();
 
-			builder.Services.AddSwaggerGen(c =>
-			{
-				// (név, OpenApiInfo) párok megadása szükséges
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "AnonymVotingAPI", Version = "v1" });
-			});
-			*/
+			builder.Services.AddSwaggerGen();
 		
 			var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
 			{ 
-				/*
 				app.UseSwagger();
-                app.UseSwaggerUI(c =>
-				{
-					// a JSON végpont megadása (és engedélyezése szükséges)
-					c.RoutePrefix = string.Empty;
-					c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voting API V1");
-				});
-				*/
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

@@ -21,8 +21,16 @@ namespace MVCapp.Persitence.Services
 
 		public Poll GetPoll(Int32 id)
         {
-            Trace.WriteLine(_context.Polls.ToList().Count);
-            return _context.Polls.ToList().Single(v => v.Id == id);
+            var poll = _context.Polls.Single(v => v.Id == id);
+            if(poll is null)
+            {
+                Trace.WriteLine("Nincs");
+            }
+            else
+            {
+				Trace.WriteLine(poll);
+			}       
+            return poll;
         }
 
         public Poll? CreatePoll(Poll poll)
@@ -108,7 +116,8 @@ namespace MVCapp.Persitence.Services
             try
             {
                 GetPoll(pollid).AddVoter(GetApplicationUser(userid));
-            }
+				_context.SaveChanges();
+			}
             catch
             {
                 return false;

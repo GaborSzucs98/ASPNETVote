@@ -67,7 +67,7 @@
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<Button Content="Save Poll" Command="{Binding SavePollCommand}" />
 			<Button Content="Add new option" Command="{Binding AddNewOptionCommand}" />
-			<Button Content="Add users" Command="{Binding AddUsersCommand}" />
+			<Button Content="Add user" Command="{Binding AddUsersCommand}" />
 			<Button Content="Cancel" Command="{Binding CancelCommand}" />
 		</StackPanel>
 	</Grid>

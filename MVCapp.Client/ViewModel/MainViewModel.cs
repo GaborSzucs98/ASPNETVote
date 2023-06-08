@@ -40,8 +40,8 @@ namespace MVCapp.Client.ViewModel
 		private DateTime selectedstart;
 		private DateTime selectedend;
 		private string newquestion;
-		ObservableCollection<LoginDTO> allusers;
-		LoginDTO selecteduser;
+		private ObservableCollection<LoginDTO> allusers;
+		private LoginDTO selecteduser;
 
 		public LoginDTO SelectedUser
 		{
@@ -140,7 +140,17 @@ namespace MVCapp.Client.ViewModel
 			AddNewOptionCommand = new DelegateCommand(_ => AddNewOption());
 			AddingNewPollCommand = new DelegateCommand(param => AddNewPoll(param as AddingNewItemEventArgs));
 			AddNewPollCommand = new DelegateCommand(_ => AddPoll());
-			SavePollCommand = new DelegateCommand(_ => SelectedPoll.validate(),_ => SavePoll());
+			SavePollCommand = new DelegateCommand(_ =>
+			{
+				if (SelectedPoll is not null) 
+				{ 
+					return SelectedPoll.validate();
+				}
+				else
+				{
+					return false;
+				}
+			},_ => SavePoll());
 			AddUsersCommand = new DelegateCommand(_ => AddUsers());
 
 		}
@@ -148,6 +158,10 @@ namespace MVCapp.Client.ViewModel
 		private void AddUsers()
 		{
 			var user = SelectedUser;
+			if (user is null)
+			{
+				return;
+			}
 			if (SelectedPoll.Voters.Any(v => v.Id == user.Id))
 			{
 				return;
@@ -291,6 +305,10 @@ namespace MVCapp.Client.ViewModel
 
 		private void AddNewOption()
 		{
+			if(String.IsNullOrEmpty(NewQuestion))
+			{
+				return;
+			}
 			OptionViewModel newopt = new OptionViewModel();
 			newopt.Ans = NewQuestion;
 			SelectedPoll.Options.Add(newopt);
@@ -304,6 +322,7 @@ namespace MVCapp.Client.ViewModel
 			{
 				Id = 0,			
 			};
+			newPoll.BeginEdit();
 			Polls.Add(newPoll);
 			SelectedPoll = newPoll;
 			var users = await service.LoadUsersAsync();

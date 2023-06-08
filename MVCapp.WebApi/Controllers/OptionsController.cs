@@ -31,7 +31,7 @@ namespace MVCapp.WebApi.Controllers
 
 		[HttpGet]
 		[Authorize]
-		public ActionResult<IEnumerable<OptionDTO>> GetOptions(int pollid)
+		public ActionResult<IEnumerable<OptionDTO>> GetOptions()
 		{
 			try
 			{
@@ -45,7 +45,7 @@ namespace MVCapp.WebApi.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public ActionResult CreateOption(OptionDTO optionDto)
+		public ActionResult<OptionDTO> CreateOption(OptionDTO optionDto)
 		{
 			var option = mapper.Map<Option>(optionDto);
 			var newoption = service.CreateOption(option);
