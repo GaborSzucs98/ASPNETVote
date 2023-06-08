@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCapp.DTOClasses
 {
-    public class UserDTO
+    public class LoginDTO
     {
+		public String Id { get; set; }
+
         public String Email { get; set; }
 
         public String Password { get; set; }
@@ -19,7 +21,6 @@ namespace MVCapp.DTOClasses
 		public DateTime Start { get; set; }
 
 		public DateTime End { get; set; }
-
 	}
 
     public class PollUserDTO
@@ -35,7 +36,6 @@ namespace MVCapp.DTOClasses
 		public Int32 Id { get; set; }
 		public string Ans { get; set; }
 		public int Votes { get; set; }
-
 		public int PollId { get; set; }
 	}
 }

@@ -6,7 +6,7 @@ using MVCapp.Persitence;
 
 namespace MVCapp.WebApi.Controllers
 {
-	[Route("api/[controller]/[action]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	[ApiConventionType(typeof(DefaultApiConventions))]
 	public class AccountController : ControllerBase
@@ -19,8 +19,8 @@ namespace MVCapp.WebApi.Controllers
 		}
 
 		// api/Account/Login
-		[HttpPost]
-		public async Task<IActionResult> Login([FromBody] UserDTO user)
+		[HttpPost("login")]
+		public async Task<IActionResult> Login([FromBody] LoginDTO user)
 		{
 			if (_signInManager.IsSignedIn(User))
 				await _signInManager.SignOutAsync();
@@ -37,7 +37,7 @@ namespace MVCapp.WebApi.Controllers
 		}
 
 		// api/Account/Logout
-		[HttpPost]
+		[HttpPost("logout")]
 		[Authorize]
 		public async Task<IActionResult> Logout()
 		{

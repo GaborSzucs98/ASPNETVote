@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using MVCapp.DTOClasses;
 using MVCapp.Persitence;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,6 +12,7 @@ namespace MVCapp.WebApi.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[ApiConventionType(typeof(DefaultApiConventions))]
 	public class PollsController : ControllerBase
 	{
 		private readonly IPollService service;
@@ -23,16 +25,16 @@ namespace MVCapp.WebApi.Controllers
 		}
 
 		// GET: api/<ValuesController>
-		[Authorize]
 		[HttpGet]
+		[Authorize]
 		public ActionResult<IEnumerable<PollDTO>> GetPolls()
 		{
 			return service.GetPolls().Select(poll => mapper.Map<PollDTO>(poll)).ToList();
 		}
 
 		// GET api/<ValuesController>/5
-		[Authorize]
 		[HttpGet("{id}")]
+		[Authorize]
 		public ActionResult<PollDTO> GetPoll(int id)
 		{
 			try
@@ -48,21 +50,18 @@ namespace MVCapp.WebApi.Controllers
 		// POST api/<ValuesController>
 		[Authorize]
 		[HttpPost]
-		public ActionResult<PollDTO> Post(PollDTO pollDTO)
+		public ActionResult<PollDTO> PostPoll(PollDTO pollDTO)
 		{
-			var Poll = service.CreatePoll(mapper.Map<Poll>(pollDTO));
-		}
-
-		// PUT api/<ValuesController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<ValuesController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
+			var poll = service.CreatePoll(mapper.Map<Poll>(pollDTO));
+			if(poll is null)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
+			else
+			{
+				return CreatedAtAction(nameof(GetPoll), new { id = poll.Id },
+					mapper.Map<PollDTO>(poll));
+			}
 		}
 	}
 }

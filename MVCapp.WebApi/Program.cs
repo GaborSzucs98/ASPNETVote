@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MVCapp.Persitence;
 using MVCapp.Persitence.Services;
@@ -49,30 +50,30 @@ namespace MVCapp.WebApi
 			builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			/*
             builder.Services.AddEndpointsApiExplorer();
 
 			builder.Services.AddSwaggerGen(c =>
 			{
 				// (név, OpenApiInfo) párok megadása szükséges
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Anonym Voting API", Version = "v1" });
-
-				// XML API dokumentáció felhasználása a Swaggerben
-				var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-				var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-				c.IncludeXmlComments(xmlPath);
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "AnonymVotingAPI", Version = "v1" });
 			});
-
+			*/
+		
 			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
+			{ 
+				/*
+				app.UseSwagger();
                 app.UseSwaggerUI(c =>
 				{
 					// a JSON végpont megadása (és engedélyezése szükséges)
-					c.SwaggerEndpoint("/swagger/v1/swagger.json", "Travel Agency API V1");
+					c.RoutePrefix = string.Empty;
+					c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voting API V1");
 				});
+				*/
             }
 
             app.UseHttpsRedirection();

@@ -1,0 +1,74 @@
+﻿<Window x:Class="MVCapp.Client.View.NewPollWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MVCapp.Client.View"
+		xmlns:viewModel="clr-namespace:MVCapp.Client.ViewModel" 
+        mc:Ignorable="d"
+        Title="NewPollWindow" Height="450" Width="800">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="6*"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<GroupBox Grid.Row="0">
+			<GroupBox.Header>
+				<Label Content="Details" />
+			</GroupBox.Header>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<DataGrid Grid.Column="1"
+							  ItemsSource="{Binding SelectedPoll.Options}"
+							  IsReadOnly="True" AutoGenerateColumns="False"
+							  VerticalContentAlignment="Stretch" SelectionMode="Single"
+							  CanUserAddRows="False" CanUserDeleteRows="False" >
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Answer" Binding="{Binding Ans}" Width="*" />
+					</DataGrid.Columns>
+				</DataGrid>
+				<StackPanel Orientation="Vertical" Grid.Column="2">
+					<DataGrid
+							SelectedItem="{Binding SelectedUser}"
+							ItemsSource="{Binding AllUsers}"
+							IsReadOnly="True" AutoGenerateColumns="False"
+							VerticalContentAlignment="Stretch" SelectionMode="Single"
+							CanUserAddRows="False" CanUserDeleteRows="False">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+						</DataGrid.Columns>
+					</DataGrid>
+					<DataGrid
+							ItemsSource="{Binding SelectedPoll.Voters}"
+							IsReadOnly="True" AutoGenerateColumns="False"
+							VerticalContentAlignment="Stretch" SelectionMode="Extended"
+							CanUserAddRows="False" CanUserDeleteRows="False">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+				<StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch">
+					<Label Content="Question:"/>
+					<TextBox Text="{Binding SelectedPoll.Question}"/>
+					<Label Content="StartDate:"/>
+					<DatePicker SelectedDate="{Binding SelectedPoll.Start, Mode=TwoWay}" />
+					<Label Content="EndDate:"/>
+					<DatePicker SelectedDate="{Binding SelectedPoll.End, Mode=TwoWay}" />
+					<Label Content="New Answeroption" />
+					<TextBox Text="{Binding NewQuestion}" />
+				</StackPanel>
+			</Grid>
+		</GroupBox>
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<Button Content="Save Poll" Command="{Binding SavePollCommand}" />
+			<Button Content="Add new option" Command="{Binding AddNewOptionCommand}" />
+			<Button Content="Add users" Command="{Binding AddUsersCommand}" />
+			<Button Content="Cancel" Command="{Binding CancelCommand}" />
+		</StackPanel>
+	</Grid>
+</Window>

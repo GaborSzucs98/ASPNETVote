@@ -21,8 +21,6 @@ namespace MVCapp.Persitence
                 return;
             }
 
-            var users = SeedUsers();
-
 			List<Poll> defaultPolls = new List<Poll>
             {
                 new Poll
@@ -173,39 +171,36 @@ namespace MVCapp.Persitence
                 }
             };
 
-            defaultPolls[0].AddVoter(users[0]);
-			defaultPolls[0].AddVoter(users[1]);
+            SeedUser("admin");
+			SeedUser("test1");
+			SeedUser("test2");
 
-			defaultPolls[1].AddVoter(users[0]);
-			defaultPolls[1].AddVoter(users[1]);
+			context.AddRange(defaultPolls);
+			context.SaveChanges();
 
-			defaultPolls[2].AddVoter(users[0]);
+            var polls = context.Polls.ToList();
+			var users = userManager.Users.ToList();
 
-            context.AddRange(defaultPolls);
-            context.SaveChanges();
-            
+            polls[0].AddVoter(users[0]);
+			polls[0].AddVoter(users[1]);
+
+			polls[1].AddVoter(users[0]);
+			polls[1].AddVoter(users[1]);
+
+			polls[2].AddVoter(users[0]);
+
+            context.SaveChanges();            
         }
-		private static List<ApplicationUser> SeedUsers()
+		private static void SeedUser(string input)
 		{
 			var adminUser = new ApplicationUser
 			{
-				UserName = "admin@admin.hu",
-				Email = "admin@admin.hu",
+				UserName = $"{input}@admin.hu",
+				Email = $"{input}@admin.hu",
 			};
-			var adminPassword = "admin";
+            var adminPassword = input;
 
 			var result1 = userManager.CreateAsync(adminUser, adminPassword).Result;
-
-			var adminUser2 = new ApplicationUser
-			{
-				UserName = "test@test.hu",
-				Email = "test@test.hu",
-			};
-			var adminPassword2 = "test";
-
-			var result2 = userManager.CreateAsync(adminUser2, adminPassword2).Result;
-
-            return new List<ApplicationUser> { adminUser, adminUser2 };
 		}
 	}
 }

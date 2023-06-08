@@ -12,6 +12,6 @@ namespace MVCapp.Persitence
         {
         }
 
-        public DbSet<Option>? Option { get; set; }
-    }
+        public DbSet<Option> Option { get; set; } = null!;
+	}
 }

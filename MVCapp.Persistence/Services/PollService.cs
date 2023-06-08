@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace MVCapp.Persitence.Services
 {
@@ -20,10 +21,11 @@ namespace MVCapp.Persitence.Services
 
 		public Poll GetPoll(Int32 id)
         {
-            return _context.Polls.Single(v => v.Id == id);
+            Trace.WriteLine(_context.Polls.ToList().Count);
+            return _context.Polls.ToList().Single(v => v.Id == id);
         }
 
-        public bool CreatePoll(Poll poll)
+        public Poll? CreatePoll(Poll poll)
         {
             try
             {
@@ -32,14 +34,14 @@ namespace MVCapp.Persitence.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                return false;
+                return null;
             }
             catch (DbUpdateException)
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return poll;
         }
 
         public bool UpdatePoll(Poll poll)
@@ -86,9 +88,66 @@ namespace MVCapp.Persitence.Services
             return true;
         }
 
-        public void Vote(Poll poll, string userid, int optionid) {
+        public List<PollUser> GetPollUsers()
+        {
+            List<PollUser> pollUsers= new List<PollUser>();
+            foreach (var item in _context.Polls)
+            {
+                pollUsers.AddRange(item.Voters);
+            }
+            return pollUsers;
+        }
+
+        public ApplicationUser GetApplicationUser(string userid)
+        {
+            return _context.Users.Single(u => u.Id == userid);
+        }
+
+        public bool AddVoter(int pollid, string userid)
+        {
+            try
+            {
+                GetPoll(pollid).AddVoter(GetApplicationUser(userid));
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+		public List<ApplicationUser> GetAllApplicationUser()
+        {
+            return _context.Users.ToList();
+        }
+
+		public void Vote(Poll poll, string userid, int optionid) {
             poll.Vote(userid, optionid);
             _context.SaveChanges();
         }
-    }
+
+		public Option GetOption(int id)
+		{
+            return _context.Option.Single(o => o.Id == id);
+		}
+
+        public List<Option> GetAllOptions()
+        {
+            return _context.Option.ToList();
+        }
+
+		public Option? CreateOption(Option option)
+		{
+            try
+            {
+                _context.Add(option);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return null;
+            }
+            return option;
+		}
+	}
 }

@@ -8,5 +8,6 @@ namespace MVCapp.Persitence
         public Int32 Id { get; set; }
         public string Ans { get; set; } = null!;
         public int Votes { get; set; } = 0;
+        public int PollId { get; set; }
     }
 }
